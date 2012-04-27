@@ -11,49 +11,60 @@ namespace ComboBoxAutoComplete
 {
     public partial class Form1 : Form
     {
-        List<Person> _list = new List<Person>();
+        private List<Person> _list = new List<Person>();
+        private List<Person> _list2 = new List<Person>();
         private System.Windows.Forms.KeyEventArgs _LastKeyDown;
 
         public Form1()
         {
             InitializeComponent();
 
-            InitializeList();
+            InitializeList(_list);
+            InitializeList(_list2);
 
-            _list = _list.OrderBy(x => x.Name).ToList();
-            AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
-            string[] arr = _list.Select(x => x.Name).ToArray();
-            collection.AddRange(arr);
-            comboBox1.AutoCompleteCustomSource = collection;
-            
+            ConfigurinBuildInComboBox();
+            ConfiguringCustomComboBox();
+        }
 
-            comboBox1.DataSource = _list;
-            comboBox1.DisplayMember = "Name";
-            comboBox1.ValueMember = "SSN";
-            comboBox1.SelectedIndex = -1;
-
-            comboBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            comboBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
-
-            comboBox2.DataSource = _list;
+        private void ConfiguringCustomComboBox()
+        {
+            _list2 = _list2.OrderBy(x => x.Name).ToList();
+            comboBox2.DataSource = _list2;
             comboBox2.DisplayMember = "Name";
             comboBox2.ValueMember = "SSN";
             comboBox2.SelectedIndex = -1;
         }
 
-        private void InitializeList()
+        private void ConfigurinBuildInComboBox()
+        {           
+            _list = _list.OrderBy(x => x.Name).ToList();
+            //AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
+            //string[] arr = _list.Select(x => x.Name).ToArray();
+            //collection.AddRange(arr);
+            //comboBox1.AutoCompleteCustomSource = collection;
+
+            comboBox1.DataSource = _list;
+            comboBox1.DisplayMember = "Name";
+            comboBox1.ValueMember = "SSN";
+            comboBox1.SelectedIndex = -1;
+            
+            comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+        }
+
+        private void InitializeList(List<Person> list)
         {
-            _list.Add(new Person { Name = "Anna Gunna", Email = "anna@gunna", SSN = "1" });
-            _list.Add(new Person { Name = "Baldur Siggi", Email = "baldur@siggi", SSN = "2" });
-            _list.Add(new Person { Name = "Daníel Einar", Email = "daniel@einar", SSN = "3" });
-            _list.Add(new Person { Name = "Elvar Gauti", Email = "elvar@gauti", SSN = "4" });
-            _list.Add(new Person { Name = "Fannar Smári", Email = "fannar@smari", SSN = "5" });
-            _list.Add(new Person { Name = "Gunnar Ari", Email = "gunnar@ari", SSN = "6" });
-            _list.Add(new Person { Name = "Baldur Siggi", Email = "baldur@siggi", SSN = "7" });
-            _list.Add(new Person { Name = "Anna Gunna", Email = "anna@gunna", SSN = "8" });
-            _list.Add(new Person { Name = "Hallgrímur Sæm", Email = "hallgrimur@saem", SSN = "9" });
-            _list.Add(new Person { Name = "Inga Jóna", Email = "inga@jona", SSN = "10" });
-            _list.Add(new Person { Name = "Jón Jóns", Email = "jon@jons", SSN = "11" });
+            list.Add(new Person { Name = "Anna Gunna", Email = "anna@gunna", SSN = "1" });
+            list.Add(new Person { Name = "Baldur Siggi", Email = "baldur@siggi", SSN = "2" });
+            list.Add(new Person { Name = "Daníel Einar", Email = "daniel@einar", SSN = "3" });
+            list.Add(new Person { Name = "Elvar Gauti", Email = "elvar@gauti", SSN = "4" });
+            list.Add(new Person { Name = "Fannar Smári", Email = "fannar@smari", SSN = "5" });
+            list.Add(new Person { Name = "Gunnar Ari", Email = "gunnar@ari", SSN = "6" });
+            list.Add(new Person { Name = "Baldur Siggi", Email = "baldur@siggi", SSN = "7" });
+            list.Add(new Person { Name = "Anna Gunna", Email = "anna@gunna", SSN = "8" });
+            list.Add(new Person { Name = "Hallgrímur Sæm", Email = "hallgrimur@saem", SSN = "9" });
+            list.Add(new Person { Name = "Inga Jóna", Email = "inga@jona", SSN = "10" });
+            list.Add(new Person { Name = "Jón Jóns", Email = "jon@jons", SSN = "11" });
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -156,7 +167,7 @@ namespace ComboBoxAutoComplete
             _LastKeyDown = e;
         }
 
-        private void comboBox2_SelectedIndexChanged()
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox2.SelectedItem != null)
             {
@@ -173,7 +184,15 @@ namespace ComboBoxAutoComplete
             Person person = comboBox2.SelectedItem as Person;
             MessageBox.Show("Name: " + person.Name + "\r\n" + "Email: " + person.Email + "\r\n" + "SSN: " + person.SSN);
             comboBox2.SelectedIndex = -1;
+            label10.Text = string.Empty;
+            label11.Text = string.Empty;
+            label12.Text = string.Empty;
             comboBox2.Focus();
+        }
+
+        private void comboBox2_SelectedIndexChanged()
+        {
+
         }
     }
 
