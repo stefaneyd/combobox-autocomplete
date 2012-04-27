@@ -112,12 +112,8 @@ namespace ComboBoxAutoComplete
                 case Keys.Left:
                 case Keys.Right:
                 case Keys.Up:
-                    comboBox2_SelectedIndexChanged();
-                    return;
                 case Keys.Delete:
                 case Keys.Down:
-                    comboBox2_SelectedIndexChanged();
-                    return;
                 case Keys.ShiftKey:
                 case Keys.Shift:
                 case Keys.RShiftKey:
@@ -188,11 +184,6 @@ namespace ComboBoxAutoComplete
             label11.Text = string.Empty;
             label12.Text = string.Empty;
             comboBox2.Focus();
-        }
-
-        private void comboBox2_SelectedIndexChanged()
-        {
-
         }
     }
 
